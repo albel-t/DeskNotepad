@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using Microsoft.Win32;
 
 namespace DeskNotepad
@@ -107,9 +108,13 @@ namespace DeskNotepad
                 string newPath = Path.Combine(documentsFolder, newName);
                 if (!File.Exists(newPath) || newPath == currentFilePath)
                 {
-                    File.Move(currentFilePath, newPath);
-                    currentFilePath = newPath;
-                    UpdateTabHeader();
+                    try
+                    {
+                        File.Move(currentFilePath, newPath);
+                        currentFilePath = newPath;
+                        UpdateTabHeader();
+                    }
+                    catch { }
                 }
             }
         }
@@ -125,60 +130,64 @@ namespace DeskNotepad
 
             if (isFixed)
             {
-                // Делаем окно прозрачным и всегда позади всех
-                this.Background = System.Windows.Media.Brushes.Transparent;
-                this.AllowsTransparency = true;
-                this.WindowStyle = WindowStyle.None;
+                // Делаем фон прозрачным, убираем рамку, отключаем поверх всех
+                WindowBorder.Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+                WindowBorder.BorderBrush = Brushes.Transparent;
                 this.Topmost = false;
 
-                // Меняем все на черный фон с белым текстом
                 ApplyDarkTheme();
             }
             else
             {
-                // Возвращаем обычный вид
-                this.Background = System.Windows.Media.Brushes.White;
-                this.AllowsTransparency = false;
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                // Возвращаем белый фон и рамку
+                WindowBorder.Background = Brushes.White;
+                WindowBorder.BorderBrush = Brushes.Gray;
 
-                // Возвращаем белый фон с черным текстом
                 ApplyLightTheme();
             }
         }
+
+        private void MoveWindow_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!isFixed)
+                this.DragMove();
+        }
+
         private void HiddenButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Ты нашел ебанутую кнопку на 3600 пикселей!");
         }
+
         private void ApplyDarkTheme()
         {
             var allButtons = FindVisualChildren<Button>(this);
             foreach (var btn in allButtons)
             {
-                btn.Background = System.Windows.Media.Brushes.Black;
-                btn.Foreground = System.Windows.Media.Brushes.White;
-                btn.BorderBrush = System.Windows.Media.Brushes.Gray;
+                btn.Background = Brushes.Black;
+                btn.Foreground = Brushes.White;
+                btn.BorderBrush = Brushes.Gray;
             }
 
-            FileTypeCombo.Background = System.Windows.Media.Brushes.Black;
-            FileTypeCombo.Foreground = System.Windows.Media.Brushes.White;
-            FileTypeCombo.BorderBrush = System.Windows.Media.Brushes.Gray;
+            FileTypeCombo.Background = Brushes.Black;
+            FileTypeCombo.Foreground = Brushes.White;
+            FileTypeCombo.BorderBrush = Brushes.Gray;
 
-            FileNameTextBox.Background = System.Windows.Media.Brushes.Black;
-            FileNameTextBox.Foreground = System.Windows.Media.Brushes.White;
-            FileNameTextBox.BorderBrush = System.Windows.Media.Brushes.Gray;
+            FileNameTextBox.Background = Brushes.Black;
+            FileNameTextBox.Foreground = Brushes.White;
+            FileNameTextBox.BorderBrush = Brushes.Gray;
 
-            MainRichTextBox.Background = System.Windows.Media.Brushes.Black;
-            MainRichTextBox.Foreground = System.Windows.Media.Brushes.White;
-            MainRichTextBox.BorderBrush = System.Windows.Media.Brushes.Gray;
+            MainRichTextBox.Background = Brushes.Black;
+            MainRichTextBox.Foreground = Brushes.White;
+            MainRichTextBox.BorderBrush = Brushes.Gray;
 
             var tabItem = MainTabControl.Items[0] as TabItem;
             if (tabItem != null)
             {
-                tabItem.Background = System.Windows.Media.Brushes.Black;
-                tabItem.Foreground = System.Windows.Media.Brushes.White;
+                tabItem.Background = Brushes.Black;
+                tabItem.Foreground = Brushes.White;
             }
 
-            FixRadio.Foreground = System.Windows.Media.Brushes.White;
+            FixRadio.Foreground = Brushes.White;
         }
 
         private void ApplyLightTheme()
@@ -186,38 +195,38 @@ namespace DeskNotepad
             var allButtons = FindVisualChildren<Button>(this);
             foreach (var btn in allButtons)
             {
-                btn.Background = System.Windows.Media.Brushes.White;
-                btn.Foreground = System.Windows.Media.Brushes.Black;
-                btn.BorderBrush = System.Windows.Media.Brushes.LightGray;
+                btn.Background = Brushes.White;
+                btn.Foreground = Brushes.Black;
+                btn.BorderBrush = Brushes.LightGray;
             }
 
-            FileTypeCombo.Background = System.Windows.Media.Brushes.White;
-            FileTypeCombo.Foreground = System.Windows.Media.Brushes.Black;
-            FileTypeCombo.BorderBrush = System.Windows.Media.Brushes.LightGray;
+            FileTypeCombo.Background = Brushes.White;
+            FileTypeCombo.Foreground = Brushes.Black;
+            FileTypeCombo.BorderBrush = Brushes.LightGray;
 
-            FileNameTextBox.Background = System.Windows.Media.Brushes.White;
-            FileNameTextBox.Foreground = System.Windows.Media.Brushes.Black;
-            FileNameTextBox.BorderBrush = System.Windows.Media.Brushes.LightGray;
+            FileNameTextBox.Background = Brushes.White;
+            FileNameTextBox.Foreground = Brushes.Black;
+            FileNameTextBox.BorderBrush = Brushes.LightGray;
 
-            MainRichTextBox.Background = System.Windows.Media.Brushes.White;
-            MainRichTextBox.Foreground = System.Windows.Media.Brushes.Black;
-            MainRichTextBox.BorderBrush = System.Windows.Media.Brushes.LightGray;
+            MainRichTextBox.Background = Brushes.White;
+            MainRichTextBox.Foreground = Brushes.Black;
+            MainRichTextBox.BorderBrush = Brushes.LightGray;
 
             var tabItem = MainTabControl.Items[0] as TabItem;
             if (tabItem != null)
             {
-                tabItem.Background = System.Windows.Media.Brushes.White;
-                tabItem.Foreground = System.Windows.Media.Brushes.Black;
+                tabItem.Background = Brushes.White;
+                tabItem.Foreground = Brushes.Black;
             }
 
-            FixRadio.Foreground = System.Windows.Media.Brushes.Black;
+            FixRadio.Foreground = Brushes.Black;
         }
 
         private System.Collections.Generic.IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
         {
-            for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent); i++)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
-                var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+                var child = VisualTreeHelper.GetChild(parent, i);
                 if (child is T typedChild)
                     yield return typedChild;
 
