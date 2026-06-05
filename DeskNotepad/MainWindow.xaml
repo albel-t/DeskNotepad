@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeskNotepad"
         mc:Ignorable="d"
-        Title="MainWindow" Height="478" Width="530"
+        Title="MainWindow" Height="478" Width="600" MinWidth="600" MinHeight="200"
         WindowStyle="SingleBorderWindow"
         Background="White"
         Topmost="False">
@@ -63,69 +63,71 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="0,10,10,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="427*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="110*"/>
-            <ColumnDefinition Width="58*"/>
-            <ColumnDefinition Width="70*"/>
-            <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="143*"/>
-        </Grid.ColumnDefinitions>
+    <Grid HorizontalAlignment="Left">
+        <Grid Margin="0,10,10,0">
 
-        <Button Grid.Column="3" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Width="117" Height="24"
-                Click="Open_Click" x:Name="OpenButton"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="427*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110*"/>
+                <ColumnDefinition Width="58*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="139*"/>
+                <ColumnDefinition Width="143*"/>
+            </Grid.ColumnDefinitions>
 
-        <RadioButton Grid.Column="4" Content="Fix" HorizontalAlignment="Left" Margin="16,0,0,0" VerticalAlignment="Center" Height="16" Width="85"
-                     Click="FixButton_Click" x:Name="FixRadio"/>
+            <Button Grid.Column="3" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Width="117" Height="24"
+                    Click="Open_Click" x:Name="OpenButton"/>
 
-        <TabControl Grid.ColumnSpan="5" Margin="0,25,0,0" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2" x:Name="MainTabControl">
-            <TabControl.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <RotateTransform/>
-                </TransformGroup>
-            </TabControl.RenderTransform>
-            <TabItem Header="filename" Margin="-2,-2,-12,0" RenderTransformOrigin="0.5,0.5" x:Name="SampleTab">
-                <TabItem.RenderTransform>
+            <RadioButton Grid.Column="4" Content="Fix" HorizontalAlignment="Left" Margin="16,0,0,0" VerticalAlignment="Center" Height="16" Width="85"
+                         Click="FixButton_Click" x:Name="FixRadio"/>
+
+            <TabControl Grid.ColumnSpan="5" Margin="5,2,5,-7" RenderTransformOrigin="0.5,0.5" x:Name="MainTabControl" Grid.Row="1">
+                <TabControl.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
-                        <SkewTransform/>
-                        <TranslateTransform/>
+                        <RotateTransform/>
                     </TransformGroup>
-                </TabItem.RenderTransform>
-                <Grid Margin="0,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="38*"/>
-                        <RowDefinition Height="351*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="49*"/>
-                        <ColumnDefinition Width="61*"/>
-                        <ColumnDefinition Width="83*"/>
-                        <ColumnDefinition Width="32*"/>
-                        <ColumnDefinition Width="32*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="3" Content="Delete" HorizontalAlignment="Center" Height="22" VerticalAlignment="Center" Width="60"
-                            Click="DeleteButton_Click" x:Name="DeleteButton"/>
-                    <Button Grid.Column="4" Content="Close" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Center" Width="58" Height="22"
-                            Click="CloseTabButton_Click"/>
-                    <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120" Grid.Column="1" Height="22"
-                             x:Name="FileNameTextBox" TextChanged="FileNameTextBox_TextChanged"/>
-                    <Label Content="File Name" HorizontalAlignment="Center" VerticalAlignment="Center" Width="78" Height="26" FontWeight="SemiBold"/>
-                    <RichTextBox Grid.Row="1" Grid.ColumnSpan="5" x:Name="MainRichTextBox" TextChanged="RichTextBox_TextChanged"
-                                 VerticalScrollBarVisibility="Auto"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
+                </TabControl.RenderTransform>
+                <TabItem Header="filename" Margin="-2,-2,-12,0" RenderTransformOrigin="0.5,0.5" x:Name="SampleTab">
+                    <TabItem.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TabItem.RenderTransform>
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="351*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="49*"/>
+                            <ColumnDefinition Width="140*"/>
+                            <ColumnDefinition Width="32*"/>
+                            <ColumnDefinition Width="32*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="2" Content="Delete" HorizontalAlignment="Center" Height="22" VerticalAlignment="Center" Width="60"
+                                Click="DeleteButton_Click" x:Name="DeleteButton"/>
+                        <Button Grid.Column="3" Content="Close" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Center" Width="58" Height="22"
+                                Click="CloseTabButton_Click" Cursor="Hand"/>
+                        <TextBox TextWrapping="Wrap" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Height="22"
+                                 x:Name="FileNameTextBox" TextChanged="FileNameTextBox_TextChanged" Margin="10,0,15,0" Cursor=""/>
+                        <Label Content="File Name" HorizontalAlignment="Right" VerticalAlignment="Center" Width="78" Height="26" FontWeight="SemiBold"/>
+                        <RichTextBox Grid.Row="1" Grid.ColumnSpan="5" x:Name="MainRichTextBox" TextChanged="RichTextBox_TextChanged"
+                                     VerticalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
 
-        <ComboBox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="58" Height="22" x:Name="FileTypeCombo" SelectedIndex="0">
-            <ComboBoxItem Content="text" Foreground="Black"/>
-        </ComboBox>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="58" Height="22" x:Name="FileTypeCombo" SelectedIndex="0">
+                <ComboBoxItem Content="text" Foreground="Black"/>
+            </ComboBox>
 
-        <Button Content="New" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="110" Height="24" Click="New_Click"/>
+            <Button Content="New" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="110" Height="22" Click="New_Click" Cursor="Hand"/>
+        </Grid>
     </Grid>
 </Window>

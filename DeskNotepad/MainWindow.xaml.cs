@@ -145,7 +145,10 @@ namespace DeskNotepad
                 ApplyLightTheme();
             }
         }
-
+        private void HiddenButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Ты нашел ебанутую кнопку на 3600 пикселей!");
+        }
         private void ApplyDarkTheme()
         {
             var allButtons = FindVisualChildren<Button>(this);
