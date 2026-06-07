@@ -62,78 +62,85 @@
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+
+        <Style x:Key="TitleBarButton" TargetType="Button">
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E81123" />
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TitleBarButtonMinimize" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E5E5" />
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TitleBarButtonMaximize" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E5E5" />
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
-    <!-- Рамка окна и фон -->
     <Border x:Name="WindowBorder" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Background="White">
-        <Grid HorizontalAlignment="Left">
-            <Grid Margin="0,10,10,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="427*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110*"/>
-                    <ColumnDefinition Width="58*"/>
-                    <ColumnDefinition Width="70*"/>
-                    <ColumnDefinition Width="139*"/>
-                    <ColumnDefinition Width="143*"/>
-                </Grid.ColumnDefinitions>
+            <Border x:Name="TitleBar" Grid.Row="0" Background="White" CornerRadius="5,5,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <TextBlock Text="DeskNotepad" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" FontWeight="SemiBold" Foreground="Black"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="MinimizeButton" Content="&#xE921;" Style="{StaticResource TitleBarButtonMinimize}" Click="MinimizeButton_Click" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                        <Button x:Name="MaximizeButton" Content="&#xE922;" Style="{StaticResource TitleBarButtonMaximize}" Click="MaximizeButton_Click" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                        <Button x:Name="CloseButton" Content="&#xE711;" Style="{StaticResource TitleBarButton}" Click="CloseButton_Click" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
 
-                <!-- Заголовок для перетаскивания окна -->
-                <Border Grid.ColumnSpan="5" Background="Transparent" MouseLeftButtonDown="MoveWindow_MouseLeftButtonDown" Height="25" VerticalAlignment="Top"/>
+            <Grid Grid.Row="1" Margin="0,0,10,10">
+                <Grid Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="427*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110*"/>
+                        <ColumnDefinition Width="58*"/>
+                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="139*"/>
+                        <ColumnDefinition Width="143*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="3" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Width="117" Height="24"
-                        Click="Open_Click" x:Name="OpenButton"/>
+                    <Button Grid.Column="3" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Width="117" Height="24"
+                            Click="Open_Click" x:Name="OpenButton"/>
 
-                <RadioButton Grid.Column="4" Content="Fix" HorizontalAlignment="Left" Margin="16,0,0,0" VerticalAlignment="Center" Height="16" Width="85"
-                             Click="FixButton_Click" x:Name="FixRadio"/>
+                    <RadioButton Grid.Column="4" Content="Fix" HorizontalAlignment="Left" Margin="16,0,0,0" VerticalAlignment="Center" Height="16" Width="85"
+                                 Click="FixButton_Click" x:Name="FixRadio"/>
 
-                <TabControl Grid.ColumnSpan="5" Margin="5,2,5,-7" RenderTransformOrigin="0.5,0.5" x:Name="MainTabControl" Grid.Row="1">
-                    <TabControl.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <RotateTransform/>
-                        </TransformGroup>
-                    </TabControl.RenderTransform>
-                    <TabItem Header="filename" Margin="-2,-2,-12,0" RenderTransformOrigin="0.5,0.5" x:Name="SampleTab">
-                        <TabItem.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </TabItem.RenderTransform>
-                        <Grid Margin="0,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="351*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="49*"/>
-                                <ColumnDefinition Width="140*"/>
-                                <ColumnDefinition Width="32*"/>
-                                <ColumnDefinition Width="32*"/>
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="2" Content="Delete" HorizontalAlignment="Center" Height="22" VerticalAlignment="Center" Width="60"
-                                    Click="DeleteButton_Click" x:Name="DeleteButton"/>
-                            <Button Grid.Column="3" Content="Close" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Center" Width="58" Height="22"
-                                    Click="CloseTabButton_Click" Cursor="Hand"/>
-                            <TextBox TextWrapping="Wrap" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Height="22"
-                                     x:Name="FileNameTextBox" TextChanged="FileNameTextBox_TextChanged" Margin="10,0,15,0" Cursor=""/>
-                            <Label Content="File Name" HorizontalAlignment="Right" VerticalAlignment="Center" Width="78" Height="26" FontWeight="SemiBold"/>
-                            <RichTextBox Grid.Row="1" Grid.ColumnSpan="5" x:Name="MainRichTextBox" TextChanged="RichTextBox_TextChanged"
-                                         VerticalScrollBarVisibility="Auto"/>
-                        </Grid>
-                    </TabItem>
-                </TabControl>
-
-                <ComboBox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="58" Height="22" x:Name="FileTypeCombo" SelectedIndex="0">
-                    <ComboBoxItem Content="text" Foreground="Black"/>
-                </ComboBox>
-
-                <Button Content="New" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="110" Height="22" Click="New_Click" Cursor="Hand"/>
+                    <TabControl Grid.ColumnSpan="5" Margin="5,2,5,-7" x:Name="MainTabControl" SelectionChanged="MainTabControl_SelectionChanged" Grid.Row="1"/>
+                    
+                    <Button Content="New" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="110" Height="22" Click="New_Click" x:Name="NewButton" Cursor="Hand"/>
+                </Grid>
             </Grid>
         </Grid>
     </Border>
